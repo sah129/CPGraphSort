@@ -2,6 +2,8 @@
 import axios from 'axios';
 
 import React,{Component} from 'react';
+import { saveAs } from 'file-saver';
+
 
 class Data extends Component {
 
@@ -37,7 +39,15 @@ class Data extends Component {
 
       // Request made to the backend api
       // Send formData object
-      axios.post("/graphresults", formData);
+      axios.post("/graphresults", formData,
+      {responseType: 'arraybuffer'}
+).then(function (response) {
+            console.log(response.data)
+            var blob = new Blob([response.data], {type: "application/zip;charset=utf-8"});
+            saveAs(blob, "results.zip");
+
+        })
+
     };
 
     // File content to be displayed after

@@ -5,19 +5,43 @@ from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
 from os import listdir
 from functools import reduce
-
-def test(d):
-    print(d)
-
-
-def generate_files(filename):
-    output_class = "lasttwo"
-    base_path = "C:/Users/sarah/Desktop/" + output_class + "/"
-
-    object_file = base_path + "Spreadsheets/SpotAsssayQuant_EditedObjects.csv"
-    image_file = base_path + "Spreadsheets/SpotAsssayQuant_Image.csv"
+import base64
+from io import BytesIO
+import zipfile
 
 
+def generate_results(files):
+    object_file, image_file = get_files(files)
+    if not object_file or not image_file:
+        print("appropriate files not found!")
+
+    rowareas = get_df(object_file, image_file)
+
+    generate_graphs(rowareas)
+    result_files = ['sample_downloads/Results.csv', 'sample_downloads/Table.pdf', 'sample_downloads/Graphs.pdf']
+
+    buf = BytesIO()
+    with zipfile.ZipFile(buf, 'w') as zf:
+        for f in result_files:
+            zf.write(f)
+    buf.seek(0)
+    return(buf)
+
+
+
+def get_files(files):
+    object_file = ""
+    image_file = ""
+    for f in files:
+        if(files[f].filename == "SpotAsssayQuant_EditedObjects.csv"):
+            object_file = files[f]
+        if(files[f].filename == "SpotAsssayQuant_Image.csv"):
+            image_file = files[f]
+    if not object_file or not image_file:
+        print("appropriate files not found!")
+    return object_file, image_file
+
+def get_df(object_file, image_file):
     df = pd.read_csv(object_file)
     df = df[["ImageNumber","ObjectNumber","AreaShape_Area", "Classify_Row1", "Classify_Row2", "Classify_Row3", "Classify_Row4", "Classify_Row5", "Classify_Row6", "Classify_Row7"]]
     df = df.rename(columns = {'AreaShape_Area': 'Area','Classify_Row1':'Row1','Classify_Row2':'Row2','Classify_Row3':'Row3','Classify_Row4':'Row4','Classify_Row5':'Row5','Classify_Row6':'Row6', 'Classify_Row7':'Row7'})
@@ -36,7 +60,10 @@ def generate_files(filename):
     rowareas= rowareas.fillna(0)
     rowareas = rowareas.set_index("FileName_original")
 
-    with PdfPages(base_path + "Graphs/Result_graphs.pdf") as pdf:
+    return rowareas
+
+def generate_graphs(rowareas):
+    with PdfPages('sample_downloads/Graphs.pdf') as pdf:
         for index, row in rowareas.iterrows():
             fig, ax = plt.subplots(1,2)
             fig.suptitle(row.name, y = 1.08)
@@ -51,18 +78,17 @@ def generate_files(filename):
            # ax[1].get_legend().remove()
 
             fig.tight_layout()
-            plt.show()
             pdf.savefig(fig,bbox_inches='tight')
 
-    with PdfPages(base_path + "Graphs/Result_table.pdf") as pdf:
-        fig = plt.figure(figsize=(9,2))
-        ax = plt.subplot(111)
-        ax.axis('off')
-        ax.axis('tight')
-        #fig.suptitle(output_class + ' Areas', y = 1.08)
-        ax.table(cellText=rowareas.values, colLabels=rowareas.columns,  rowLabels=rowareas.index,  loc='center')
-        #fig.tight_layout()
+        with PdfPages("sample_downloads/Table.pdf") as pdf:
+            fig = plt.figure(figsize=(9,2))
+            ax = plt.subplot(111)
+            ax.axis('off')
+            ax.axis('tight')
+            #fig.suptitle(output_class + ' Areas', y = 1.08)
+            ax.table(cellText=rowareas.values, colLabels=rowareas.columns,  rowLabels=rowareas.index,  loc='center')
+            #fig.tight_layout()
 
-        pdf.savefig(fig,bbox_inches='tight')
+            pdf.savefig(fig,bbox_inches='tight')
 
-    rowareas.to_csv(base_path + "/Graphs/"+output_class+" Results.csv")
+        rowareas.to_csv("sample_downloads/Results.csv")
