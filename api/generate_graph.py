@@ -1,10 +1,10 @@
 
-#import pandas as pd
-#import matplotlib.pyplot as plt
-#from matplotlib.backends.backend_pdf import PdfPages
-#import numpy as np
-#from os import listdir
-#from functools import reduce
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+import numpy as np
+from os import listdir
+from functools import reduce
 
 def test(d):
     print(d)
