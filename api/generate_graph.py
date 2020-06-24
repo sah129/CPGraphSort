@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
-from os import listdir
+import os
 from functools import reduce
 import base64
 from io import BytesIO
@@ -24,7 +24,10 @@ def generate_results(files):
     with zipfile.ZipFile(buf, 'w') as zf:
         for f in result_files:
             zf.write(f)
+            os.remove(f) # fix later
     buf.seek(0)
+
+
     return(buf)
 
 

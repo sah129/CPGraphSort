@@ -52,6 +52,16 @@ class Data extends Component {
 
     // File content to be displayed after
     // file upload is complete
+    getNames = () => {
+        var s = "";
+        for(var i = 0; i < this.state.selectedFile.length; i++)
+        {
+            s += this.state.selectedFile[i].name + <br />
+        }
+        console.log(s)
+        return(<p>{s}</p>);
+    };
+
     fileData = () => {
 
       if (this.state.selectedFile) {
@@ -59,8 +69,7 @@ class Data extends Component {
         return (
           <div>
             <h2>File Details:</h2>
-            <p>File Name: {this.state.selectedFile.name}</p>
-            <p>File Type: {this.state.selectedFile.type}</p>
+            {this.getNames()}
           </div>
         );
       } else {
