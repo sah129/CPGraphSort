@@ -1,6 +1,6 @@
 ## CPGraphSort
 
-CPGraphSort is a tool designed to convert and autogenerate graphs and sorted data for the results of the SpotAssayQuant Pipeline found [here](https://github.com/sah129/Spot-Assay-Quant). The program takes multiple .csv files uploaded by the user, sorts the data and generates .csv files,graphs, and tables, all available as a zip file for download.
+CPGraphSort is a tool designed to convert and autogenerate graphs and sorted data for the results of the SpotAssayQuant Pipeline found [here](https://github.com/sah129/Spot-Assay-Quant). The program takes multiple .csv files uploaded by the user, sorts the data and generates .csv files, graphs, and tables, all available as a zip file for download.
 
 This tool will be hosted shortly on the [O'Donnell Lab](https://www.odonnelllab.com/) website for accessible use.  In addition a number of other automation scripts will be hosted there as well for ease-of-access.
 
