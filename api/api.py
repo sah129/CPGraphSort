@@ -3,8 +3,6 @@ from flask import Flask, request, send_file
 from generate_graph import generate_results
 app = Flask(__name__)
 
-
-
 @app.route('/graphresults', methods = ['POST'])
 def graphresults():
 
@@ -12,8 +10,6 @@ def graphresults():
      mimetype='application/zip',
      attachment_filename='Results.zip',
      as_attachment=True))
-
-
 
 @app.route('/download', methods=['GET'])
 def download():

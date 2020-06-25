@@ -9,7 +9,6 @@ import base64
 from io import BytesIO
 import zipfile
 
-
 def generate_results(files):
     object_file, image_file = get_files(files)
     if not object_file or not image_file:
@@ -26,11 +25,7 @@ def generate_results(files):
             zf.write(f)
             os.remove(f) # fix later
     buf.seek(0)
-
-
     return(buf)
-
-
 
 def get_files(files):
     object_file = ""
