@@ -5,7 +5,6 @@ body{
 .App {
   text-align: center;
   background-color: blue;
-  display:flex;
   flex-direction: column;
 }
 
@@ -38,7 +37,6 @@ body{
 
 .App-instructions{
     background-color: #99bdc7;
-    display:flex;
 }
 
 @keyframes App-logo-spin {
