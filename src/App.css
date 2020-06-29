@@ -5,6 +5,7 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  background-color: #233e87;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -29,7 +30,7 @@
 }
 
 .App-instructions{
-    background-color: 'red';
+    background-color: red;
 }
 
 @keyframes App-logo-spin {
