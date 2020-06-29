@@ -9,11 +9,12 @@ function App() {
   return (
     <div className="App">
         <h1>CellProfiler Graph and Sort</h1>
+            <Data />
         <div className = "App-instructions">
         Instructions: jdks;fjdsfsd
         </div>
 
-    <Data />
+
     </div>
 
   );

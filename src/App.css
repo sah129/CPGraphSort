@@ -1,11 +1,18 @@
+body{
+    background-color: #328fa8;
+
+}
 .App {
   text-align: center;
+  background-color: blue;
+  display:flex;
+  flex-direction: column;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-  background-color: #233e87;
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -30,7 +37,8 @@
 }
 
 .App-instructions{
-    background-color: red;
+    background-color: #99bdc7;
+    display:flex;
 }
 
 @keyframes App-logo-spin {
