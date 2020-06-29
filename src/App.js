@@ -8,9 +8,9 @@ import Data from './Data'
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <Data />
-    </header>
+        <h1>CellProfiler Graph and Sort</h1>
+      
+    <Data />
     </div>
 
   );

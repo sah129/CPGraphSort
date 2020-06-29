@@ -1,1 +1,1 @@
-web: gunicorn app: myapp
+web: yarn start

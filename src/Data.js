@@ -1,55 +1,60 @@
-
 import axios from 'axios';
 
 import React,{Component} from 'react';
 import { saveAs } from 'file-saver';
 
-
-class Data extends Component {
-    state = {
-      selectedFile: null
+class Data extends Component
+{
+    state =
+    {
+      selectedFiles: null
     };
-    onFileChange = event => {
-      this.setState({ selectedFile: event.target.files });
+    onFileChange = event =>
+    {
+      this.setState({ selectedFiles: event.target.files });
     };
     onFileUpload = () => {
       const formData = new FormData();
-      for( var i = 0; i < this.state.selectedFile.length; i++ )
+      for( var i = 0; i < this.state.selectedFiles.length; i++ )
       {
-           let file = this.state.selectedFile[i];
-
+           let file = this.state.selectedFiles[i];
            formData.append('files[' + i + ']', file);
-         }
-      axios.post("/graphresults", formData,{
-          responseType: 'arraybuffer'}
-).then(function (response) {
+      }
+      axios.post("/graphresults", formData,
+      {
+          responseType: 'arraybuffer'}).then(function (response)
+          {
             console.log(response.data)
             var blob = new Blob([response.data], {type: "application/zip;charset=utf-8"});
             saveAs(blob, "results.zip");
-        })
+          })
     };
 
-    getNames = () => {
+    getNames = () =>
+    {
         var s = "";
-        for(var i = 0; i < this.state.selectedFile.length; i++)
+        for(var i = 0; i < this.state.selectedFiles.length; i++)
         {
-            s += this.state.selectedFile[i].name + <br />
+            s += this.state.selectedFiles[i].name + <br />
         }
         console.log(s)
         return(<p>{s}</p>);
     };
 
-    fileData = () => {
+    fileData = () =>
+    {
 
-      if (this.state.selectedFile) {
-
+      if (this.state.selectedFiles)
+      {
         return (
           <div>
             <h2>File Details:</h2>
             {this.getNames()}
           </div>
         );
-      } else {
+      }
+      else
+      {
         return (
           <div>
             <br />
@@ -59,7 +64,8 @@ class Data extends Component {
       }
     };
 
-    render() {
+    render() 
+    {
       return (
         <div>
             <div>
