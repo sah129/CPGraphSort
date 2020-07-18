@@ -4,12 +4,14 @@ from generate_graph import generate_results
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 
-if __name__ == "__main__":
-    app.run()
-
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
+
+    
+if __name__ == "__main__":
+    app.run()
+
     
 @app.route('/api/graphresults', methods = ['POST'])
 def graphresults():
