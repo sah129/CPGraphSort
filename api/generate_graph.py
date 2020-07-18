@@ -16,24 +16,17 @@ def generate_results(files):
 
     rowareas = get_df(object_file, image_file)
 
-    generate_graphs(rowareas)
-    result_files = ['sample_downloads/Results.csv', 'sample_downloads/Table.pdf', 'sample_downloads/Graphs.pdf']
-
-    buf = BytesIO()
-    with zipfile.ZipFile(buf, 'w') as zf:
-        for f in result_files:
-            zf.write(f)
-            os.remove(f) # fix later
-    buf.seek(0)
-    return(buf)
+    rowareas.to_csv("sample_downloads/Results.csv")
+    
+    return("sample_downloads/Results.csv")
 
 def get_files(files):
     object_file = ""
     image_file = ""
     for f in files:
-        if(files[f].filename == "SpotAsssayQuant_EditedObjects.csv"):
+        if(files[f].filename == "SpotAssayQuant_EditedObjects.csv"):
             object_file = files[f]
-        if(files[f].filename == "SpotAsssayQuant_Image.csv"):
+        if(files[f].filename == "SpotAssayQuant_Image.csv"):
             image_file = files[f]
     if not object_file or not image_file:
         print("appropriate files not found!")
@@ -41,19 +34,18 @@ def get_files(files):
 
 def get_df(object_file, image_file):
     df = pd.read_csv(object_file)
-    df = df[["ImageNumber","ObjectNumber","AreaShape_Area", "Classify_Row1", "Classify_Row2", "Classify_Row3", "Classify_Row4", "Classify_Row5", "Classify_Row6", "Classify_Row7"]]
-    df = df.rename(columns = {'AreaShape_Area': 'Area','Classify_Row1':'Row1','Classify_Row2':'Row2','Classify_Row3':'Row3','Classify_Row4':'Row4','Classify_Row5':'Row5','Classify_Row6':'Row6', 'Classify_Row7':'Row7'})
+    img_rows=df.loc[:,df.filter(like='Classify').columns]
+
+    img_rows.columns = [col_name.replace("Classify_", "") for col_name in img_rows.columns]
+    df = img_rows.assign(ImageNumber = df["ImageNumber"], ObjectNumber = df["ObjectNumber"], Area = df["AreaShape_Area"])
 
     image_names = pd.read_csv(image_file)
     image_df = image_names[["FileName_original", "ImageNumber"]] #include other stuff later
     df = df.merge(image_df, on = "ImageNumber")
-
-    row_names = df.filter(regex="Row.*").columns.values
     dfs = []
-    for r in row_names:
+    for r in img_rows.columns.values:
         dfs.append(df.loc[df[r]==1].groupby("FileName_original")["Area"].sum().rename(r).reset_index())
-
-
+    
     rowareas = reduce(lambda left,right: pd.merge(left,right,on='FileName_original', how = "outer"), dfs)
     rowareas= rowareas.fillna(0)
     rowareas = rowareas.set_index("FileName_original")

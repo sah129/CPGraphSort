@@ -20,13 +20,13 @@ class Data extends Component
            let file = this.state.selectedFiles[i];
            formData.append('files[' + i + ']', file);
       }
-      axios.post("/graphresults", formData,
+      axios.post("api/graphresults", formData,
       {
           responseType: 'arraybuffer'}).then(function (response)
           {
             console.log(response.data)
-            var blob = new Blob([response.data], {type: "application/zip;charset=utf-8"});
-            saveAs(blob, "results.zip");
+            var blob = new Blob([response.data], {type: "text/csv;charset=utf-8"});
+            saveAs(blob, "Results.csv");
           })
     };
 

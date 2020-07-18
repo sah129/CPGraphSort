@@ -7,12 +7,12 @@ app = Flask(__name__, static_folder='../build', static_url_path='/')
 def index():
     return app.send_static_file('index.html')
     
-@app.route('/graphresults', methods = ['POST'])
+@app.route('/api/graphresults', methods = ['POST'])
 def graphresults():
 
     return(send_file(generate_results(request.files.to_dict()),
-     mimetype='application/zip',
-     attachment_filename='Results.zip',
+     mimetype='text/csv',
+     attachment_filename='Results.csv',
      as_attachment=True))
 
 @app.route('/download', methods=['GET'])
