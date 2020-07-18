@@ -2,14 +2,14 @@ import time
 from flask import Flask, request, send_file
 from generate_graph import generate_results
 
-flask_app = Flask(__name__, static_folder='../build', static_url_path='/')
+app = Flask(__name__, static_folder='./build', static_url_path='/')
 
 if __name__ == "__main__":
-    flask_app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
 
 @app.route('/')
 def index():
-    return flask_app.send_static_file('index.html')
+    return app.send_static_file('index.html')
     
 @app.route('/api/graphresults', methods = ['POST'])
 def graphresults():
