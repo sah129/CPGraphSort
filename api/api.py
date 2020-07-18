@@ -2,7 +2,7 @@ import time
 from flask import Flask, request, send_file
 from generate_graph import generate_results
 flask_app = Flask(__name__)
-app = Flask(__name__, static_folder='../build')
+app = Flask(__name__)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
